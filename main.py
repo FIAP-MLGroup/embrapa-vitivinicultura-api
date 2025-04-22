@@ -10,8 +10,8 @@ app = FastAPI(
     license_info={
         "name": "Apache 2.0",
         "url": "https://www.apache.org/licenses/LICENSE-2.0.html",
-    },
+    }
 )
 
-app.include_router(producao.router)
-app.include_router(processamento.router)
+app.include_router(producao.router, prefix="/api/v1")
+app.include_router(processamento.router, prefix="/api/v1")
