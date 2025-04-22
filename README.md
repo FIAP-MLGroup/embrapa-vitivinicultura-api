@@ -20,6 +20,6 @@ Para execução da aplicação, o seguinte comando deve ser executado
 uvicorn main:app --reload
 ```
 
-A API será disponibilizada localmente no endereço http://localhost:8080/
+A API será disponibilizada localmente no endereço http://localhost:8000/
 
-A documentação OpenAPI poderá ser acessada no endereço http://localhost:8080/docs
+A documentação OpenAPI poderá ser acessada no endereço http://localhost:8000/docs
