@@ -4,7 +4,7 @@ Extração dos dados de vitivinicultura fornecidos no site da EMBRAPA
 
 ## Bootstrap
 
-Para inicialização deste projeto, os seguintes comando devem ser executados:
+Para inicialização deste projeto, os seguintes comandos devem ser executados:
 
 ```bash
 python3 -m venv .venv
@@ -14,7 +14,7 @@ pip install  --requirement requirements.txt
 
 ## Startup
 
-Para execução da aplicação, o seguinte comando deve ser executado
+Para inicialização do web server, o seguinte comando deve ser executado:
 
 ```bash
 uvicorn main:app --reload
