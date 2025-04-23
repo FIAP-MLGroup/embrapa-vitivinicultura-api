@@ -1,7 +1,6 @@
 import os
 import pandas as pd
 from enum import Enum
-from models.producao import Producao, DadoAnualProducao
 
 class URL(Enum):
     PRODUCAO = {
