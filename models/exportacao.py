@@ -1,8 +1,7 @@
 from pydantic import BaseModel, Field
-from typing import Dict
+from typing import Dict, Optional
 
-from pydantic import BaseModel, Field
-from typing import Optional
+import pandas as pd
 
 class DadoAnualExportacao(BaseModel):
     quantidade: Optional[int] = Field(None, example=42661, description="Quantidade exportada")
@@ -15,6 +14,35 @@ class Exportacao(BaseModel):
         ..., 
         description="Valores por ano, com quantidade e valor"
     )
+
+    @classmethod
+    def from_dataframe_row(cls, row, field_map):
+
+        historico = {}
+
+        anos = sorted({field_map["historico"][i] for i in range(0, len(field_map["historico"]), 2)})
+
+        for i, ano in enumerate(anos):
+
+            col_qtd = field_map["historico"][2 * i]
+            col_val = field_map["historico"][2 * i + 1]
+
+            quantidade = row[col_qtd]
+            valor = row[col_val]
+
+            if pd.isna(quantidade) and pd.isna(valor):
+                continue
+
+            historico[str(ano)] = DadoAnualExportacao(
+                quantidade=int(quantidade) if pd.notna(quantidade) else None,
+                valor=int(valor) if pd.notna(valor) else None
+            )
+
+        return cls(
+            id=row[field_map["id"]],
+            pais=row[field_map["pais"]] if pd.notna(row[field_map["pais"]]) else "",
+            historico=historico
+        )
 
     class Config:
         json_schema_extra = {

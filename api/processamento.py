@@ -1,13 +1,7 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Query, HTTPException
 from typing import List
-from models.processamento import Processamento, DadoAnualProcessamento
-from core.data_loader import carregar_dados
-from core.data_loader import URL
-
-import pandas as pd
-
-from fastapi import Query
-from fastapi import HTTPException
+from models.processamento import Processamento
+from core.data_loader import carregar_dados, URL
 
 router = APIRouter()
 
@@ -41,18 +35,14 @@ def get_processamento(
     df = carregar_dados(url_map[tipo])
 
     dados = []
-    anos = [col for col in df.columns if col.isdigit()]
-
     for _, row in df.iterrows():
-        processamento = Processamento(
-            id=row["id"],
-            control=row["control"] if pd.notna(row["control"]) else "",
-            cultivar=row["cultivar"] if pd.notna(row["cultivar"]) else "",
-            historico={str(ano): 
-                DadoAnualProcessamento(
-                    quantidade=int(row[str(ano)])
-                ) for ano in anos if str(row[str(ano)]).isdigit()}
+        dados.append(
+            Processamento.from_dataframe_row(row=row, field_map={
+                "id": "id",
+                "control": "control",
+                "cultivar": "cultivar",
+                "historico": [col for col in df.columns if col.isdigit()]
+            })
         )
-        dados.append(processamento)
 
     return dados

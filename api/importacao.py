@@ -1,13 +1,7 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Query, HTTPException
 from typing import List
-from models.importacao import Importacao, DadoAnualImportacao
-from core.data_loader import carregar_dados
-from core.data_loader import URL
-
-import pandas as pd
-
-from fastapi import Query
-from fastapi import HTTPException
+from models.importacao import Importacao
+from core.data_loader import carregar_dados, URL
 
 router = APIRouter()
 
@@ -44,32 +38,14 @@ def get_importacao(
 
     # Identifica pares de colunas de anos (quantidade e valor)
     colunas_anos = df.columns[2:]  # Ignora "id" e "País"
-    anos = sorted({colunas_anos[i] for i in range(0, len(colunas_anos), 2)})
 
     for _, row in df.iterrows():
-        historico = {}
-
-        for i, ano in enumerate(anos):
-            col_qtd = colunas_anos[2 * i]
-            col_val = colunas_anos[2 * i + 1]
-
-            quantidade = row[col_qtd]
-            valor = row[col_val]
-
-            if pd.isna(quantidade) and pd.isna(valor):
-                continue
-
-            historico[str(ano)] = DadoAnualImportacao(
-                quantidade=int(quantidade) if pd.notna(quantidade) else None,
-                valor=int(valor) if pd.notna(valor) else None
-            )
-
-        importacao = Importacao(
-            id=int(row["Id"]),
-            pais=row["País"] if pd.notna(row["País"]) else "",
-            historico=historico
+        dados.append(
+            Importacao.from_dataframe_row(row=row, field_map={
+                "id": "Id",
+                "pais": "País",
+                "historico": colunas_anos
+            })
         )
-
-        dados.append(importacao)
 
     return dados
