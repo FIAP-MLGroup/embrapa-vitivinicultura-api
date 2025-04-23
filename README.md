@@ -9,7 +9,7 @@ Para inicialização deste projeto, os seguintes comandos devem ser executados:
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-pip install  --requirement requirements.txt
+pip install -r requirements.txt
 ```
 
 ## Startup
@@ -17,7 +17,7 @@ pip install  --requirement requirements.txt
 Para inicialização do web server, o seguinte comando deve ser executado:
 
 ```bash
-uvicorn main:app --reload
+uvicorn main:app --no-server-header --reload
 ```
 
 A API será disponibilizada localmente no endereço http://localhost:8000/

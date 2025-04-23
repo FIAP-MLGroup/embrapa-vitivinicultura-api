@@ -1,5 +1,5 @@
-import pandas as pd
 import os
+import pandas as pd
 from enum import Enum
 
 class URL(Enum):
@@ -14,7 +14,7 @@ class URL(Enum):
     IMPORTACAO_UVAS_FRESCAS = os.getenv("URL_IMPORTACAO_UVAS_FRESCAS", "http://vitibrasil.cnpuv.embrapa.br/download/ImpFrescas.csv")
     IMPORTACAO_UVAS_PASSAS = os.getenv("URL_IMPORTACAO_UVAS_PASSAS", "http://vitibrasil.cnpuv.embrapa.br/download/ImpPassas.csv")
     IMPORTACAO_SUCO_UVA = os.getenv("URL_IMPORTACAO_SUCO_UVA", "http://vitibrasil.cnpuv.embrapa.br/download/ImpSuco.csv")
-    EXPORTACAO_VINHOS_MESA = os.getenv("URL_EXPORTACAO_VINHOS_MESA", "http://vitibrasil.cnpuv.embrapa.br/download/ExpVinhos.csv")
+    EXPORTACAO_VINHOS_MESA = os.getenv("URL_EXPORTACAO_VINHOS_MESA", "http://vitibrasil.cnpuv.embrapa.br/download/ExpVinho.csv")
     EXPORTACAO_ESPUMANTES = os.getenv("URL_EXPORTACAO_ESPUMANTES", "http://vitibrasil.cnpuv.embrapa.br/download/ExpEspumantes.csv")
     EXPORTACAO_UVAS_FRESCAS = os.getenv("URL_EXPORTACAO_UVAS_FRESCAS", "http://vitibrasil.cnpuv.embrapa.br/download/ExpUva.csv")
     EXPORTACAO_SUCO_UVA = os.getenv("URL_EXPORTACAO_SUCO_UVA", "http://vitibrasil.cnpuv.embrapa.br/download/ExpSuco.csv")
@@ -24,7 +24,19 @@ def get_separador(url: URL):
     tsv="\t"
     csv=";"
     
-    if url == URL.PROCESSAMENTO_AMERICANAS_HIBRIDAS:
+    if url in (
+        URL.PROCESSAMENTO_AMERICANAS_HIBRIDAS,
+        URL.PROCESSAMENTO_UVAS_MESA,
+        URL.PROCESSAMENTO_SEM_CLASSIFICACAO,
+        URL.IMPORTACAO_VINHOS_MESA, 
+        URL.IMPORTACAO_ESPUMANTES, 
+        URL.IMPORTACAO_UVAS_FRESCAS,
+        URL.IMPORTACAO_UVAS_PASSAS,
+        URL.EXPORTACAO_VINHOS_MESA,
+        URL.EXPORTACAO_ESPUMANTES,
+        URL.EXPORTACAO_UVAS_FRESCAS,
+        URL.EXPORTACAO_SUCO_UVA):
+        # Se o URL for um dos tipos específicos, use o separador de tabulação
         return tsv
     
     return csv
