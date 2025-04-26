@@ -17,7 +17,7 @@ pip install -r requirements.txt
 Para inicialização do web server, o seguinte comando deve ser executado:
 
 ```bash
-uvicorn main:app --no-server-header --reload
+uvicorn app.main:app --no-server-header --reload
 ```
 
 A API será disponibilizada localmente no endereço http://localhost:8000/
@@ -37,5 +37,5 @@ docker build -t 5mlet-app .
 ### Run
 
 ```bash
-docker run -p 8000:8000 localhost/5mlet-api
+docker run -p 8000:8000 localhost/5mlet-app
 ```
