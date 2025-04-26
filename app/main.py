@@ -22,11 +22,11 @@ Metadata:
     - license_info: Apache 2.0 License
 """
 from fastapi import FastAPI
-from api import producao
-from api import processamento
-from api import comercializacao
-from api import importacao
-from api import exportacao
+from app.api import producao
+from app.api import processamento
+from app.api import comercializacao
+from app.api import importacao
+from app.api import exportacao
 
 app = FastAPI(
     title="VitiviniculturaApp",

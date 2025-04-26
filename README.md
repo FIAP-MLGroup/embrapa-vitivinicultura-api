@@ -23,3 +23,19 @@ uvicorn main:app --no-server-header --reload
 A API será disponibilizada localmente no endereço http://localhost:8000/
 
 A documentação OpenAPI poderá ser acessada no endereço http://localhost:8000/docs
+
+## Docker
+
+Abaixo segue os comandos para execução com Docker
+
+### Build
+
+```bash
+docker build -t 5mlet-app .
+```
+
+### Run
+
+```bash
+docker run -p 8000:8000 localhost/5mlet-api
+```

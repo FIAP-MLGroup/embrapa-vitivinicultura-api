@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Query, HTTPException
 from typing import List
-from models.processamento import Processamento
-from core.data_loader import carregar_dados, URL
+from app.models.processamento import Processamento
+from app.core.data_loader import carregar_dados, URL
 
 router = APIRouter()
 

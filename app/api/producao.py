@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from typing import List
-from models.producao import Producao
-from core.data_loader import carregar_dados, URL
+from app.models.producao import Producao
+from app.core.data_loader import carregar_dados, URL
 
 router = APIRouter()
 

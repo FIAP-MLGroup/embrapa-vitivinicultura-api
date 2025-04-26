@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from typing import List
-from models.comercializacao import Comercializacao
-from core.data_loader import carregar_dados, URL
+from app.models.comercializacao import Comercializacao
+from app.core.data_loader import carregar_dados, URL
 
 router = APIRouter()
 
