@@ -27,7 +27,7 @@ def get_producao():
         )
     return dados
 
-@router.get("/producao_autenticado",
+@router.get("/producao-autenticado",
         response_model=List[Producao],
         summary="Obter dados de produção de forma autenticada",
         description="Retorna os dados de produção com base no tipo especificado.",
