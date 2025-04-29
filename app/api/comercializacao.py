@@ -1,7 +1,8 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from typing import List
 from app.models.comercializacao import Comercializacao
 from app.core.data_loader import carregar_dados, URL
+from app.core.security import get_current_user
 
 router = APIRouter()
 
@@ -26,3 +27,12 @@ def get_comercializacao():
         )
 
     return dados
+
+@router.get("/comercializacao-autenticado", 
+        response_model=List[Comercializacao],
+        summary="Obter dados de comercialização de forma autenticada",
+        description="Retorna os dados de comercialização com base no tipo especificado.",
+        tags=["Comercialização"],
+        dependencies=[Depends(get_current_user)])
+def get_comercializacao_autenticado():
+    return get_comercializacao()
