@@ -1,20 +1,10 @@
-from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer
+from fastapi import APIRouter, Depends
 from typing import List
 from app.models.producao import Producao
 from app.core.data_loader import carregar_dados, URL
-from app.core.jwt_manager import verify_token
+from app.core.security import get_current_user
 
 router = APIRouter()
-
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth")
-
-def get_current_user(token: str = Depends(oauth2_scheme)):
-    username = verify_token(token)
-    if not username:
-        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,
-                            detail="Token inválido ou expirado")
-    return username
 
 @router.get("/producao", 
         response_model=List[Producao],

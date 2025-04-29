@@ -54,3 +54,9 @@ Exemplo de chamada para endpoint autenticado:
 curl http://localhost:8000/api/v1/producao_autenticado \
   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTc0NTk1NzI2Mn0.C4W8ApBMQCNpSdpJqul06vFr11JvYQ23drdPF6dRBLc"
 ```
+
+ou
+
+Informar o token ao clicar em Authorize no SwaggerUI:
+
+![Swagger Authorize](assets/images/authorize.png)
