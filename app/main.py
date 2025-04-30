@@ -27,6 +27,7 @@ from app.api import processamento
 from app.api import comercializacao
 from app.api import importacao
 from app.api import exportacao
+from app.api import auth
 
 app = FastAPI(
     title="VitiviniculturaApp",
@@ -44,3 +45,4 @@ app.include_router(processamento.router, prefix="/api/v1")
 app.include_router(comercializacao.router, prefix="/api/v1")
 app.include_router(importacao.router, prefix="/api/v1")
 app.include_router(exportacao.router, prefix="/api/v1")
+app.include_router(auth.router, prefix="/api/v1")

@@ -1,7 +1,8 @@
-from fastapi import APIRouter, Query, HTTPException
+from fastapi import APIRouter, Query, HTTPException, Depends
 from typing import List
 from app.models.processamento import Processamento
 from app.core.data_loader import carregar_dados, URL
+from app.core.security import get_current_user
 
 router = APIRouter()
 
@@ -11,6 +12,7 @@ router = APIRouter()
     summary="Obter dados de processamento",
     description="Retorna os dados de processamento com base no tipo especificado.",
     tags=["Processamento"],
+    dependencies=[Depends(get_current_user)]
 )
 def get_processamento(
     tipo: str = Query(

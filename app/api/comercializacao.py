@@ -1,7 +1,8 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from typing import List
 from app.models.comercializacao import Comercializacao
 from app.core.data_loader import carregar_dados, URL
+from app.core.security import get_current_user
 
 router = APIRouter()
 
@@ -9,7 +10,8 @@ router = APIRouter()
         response_model=List[Comercializacao],
         summary="Obter dados de comercialização",
         description="Retorna os dados de comercialização com base no tipo especificado.",
-        tags=["Comercialização"])
+        tags=["Comercialização"],
+        dependencies=[Depends(get_current_user)])
 def get_comercializacao():
 
     df = carregar_dados(URL.COMERCIALIZACAO)

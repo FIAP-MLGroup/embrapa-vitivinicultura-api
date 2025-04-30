@@ -39,3 +39,24 @@ docker build -t 5mlet-app .
 ```bash
 docker run -p 8000:8000 localhost/5mlet-app
 ```
+
+## JWT
+
+Exemplo de chamada para obter token JWT:
+```bash
+curl -X POST http://localhost:8000/api/v1/auth \        
+  -H "Content-Type: application/x-www-form-urlencoded" \                                                                                                
+  --data "username=admin&password=admin"
+```
+
+Exemplo de chamada para endpoint autenticado:
+```bash
+curl http://localhost:8000/api/v1/producao \
+  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTc0NTk1NzI2Mn0.C4W8ApBMQCNpSdpJqul06vFr11JvYQ23drdPF6dRBLc"
+```
+
+ou
+
+Informar o token ao clicar em Authorize no SwaggerUI:
+
+![Swagger Authorize](assets/images/authorize.png)

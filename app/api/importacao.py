@@ -1,7 +1,8 @@
-from fastapi import APIRouter, Query, HTTPException
+from fastapi import APIRouter, Query, HTTPException, Depends
 from typing import List
 from app.models.importacao import Importacao
 from app.core.data_loader import carregar_dados, URL
+from app.core.security import get_current_user
 
 router = APIRouter()
 
@@ -10,7 +11,8 @@ router = APIRouter()
     response_model=List[Importacao],
     summary="Obter dados de importação",
     description="Retorna os dados de importação com base no tipo especificado.",
-    tags=["Importação"]
+    tags=["Importação"],
+    dependencies=[Depends(get_current_user)]
 )
 def get_importacao(
     tipo: str = Query(

@@ -1,7 +1,8 @@
-from fastapi import APIRouter, Query, HTTPException
+from fastapi import APIRouter, Query, HTTPException, Depends
 from typing import List
 from app.models.exportacao import Exportacao
 from app.core.data_loader import carregar_dados, URL
+from app.core.security import get_current_user
 
 router = APIRouter()
 
@@ -10,7 +11,8 @@ router = APIRouter()
     response_model=List[Exportacao],
     summary="Obter dados de exportação",
     description="Retorna os dados de exportação com base no tipo especificado.",
-    tags=["Exportação"]
+    tags=["Exportação"],
+    dependencies=[Depends(get_current_user)]
 )
 def get_exportacao(
     tipo: str = Query(
