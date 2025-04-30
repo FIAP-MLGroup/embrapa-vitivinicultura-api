@@ -10,7 +10,8 @@ router = APIRouter()
         response_model=List[Comercializacao],
         summary="Obter dados de comercialização",
         description="Retorna os dados de comercialização com base no tipo especificado.",
-        tags=["Comercialização"])
+        tags=["Comercialização"],
+        dependencies=[Depends(get_current_user)])
 def get_comercializacao():
 
     df = carregar_dados(URL.COMERCIALIZACAO)
@@ -27,12 +28,3 @@ def get_comercializacao():
         )
 
     return dados
-
-@router.get("/comercializacao-autenticado", 
-        response_model=List[Comercializacao],
-        summary="Obter dados de comercialização de forma autenticada",
-        description="Retorna os dados de comercialização com base no tipo especificado.",
-        tags=["Comercialização"],
-        dependencies=[Depends(get_current_user)])
-def get_comercializacao_autenticado():
-    return get_comercializacao()

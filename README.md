@@ -51,7 +51,7 @@ curl -X POST http://localhost:8000/api/v1/auth \
 
 Exemplo de chamada para endpoint autenticado:
 ```bash
-curl http://localhost:8000/api/v1/producao_autenticado \
+curl http://localhost:8000/api/v1/producao \
   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTc0NTk1NzI2Mn0.C4W8ApBMQCNpSdpJqul06vFr11JvYQ23drdPF6dRBLc"
 ```
 

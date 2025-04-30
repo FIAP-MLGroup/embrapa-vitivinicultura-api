@@ -11,7 +11,8 @@ router = APIRouter()
     response_model=List[Importacao],
     summary="Obter dados de importação",
     description="Retorna os dados de importação com base no tipo especificado.",
-    tags=["Importação"]
+    tags=["Importação"],
+    dependencies=[Depends(get_current_user)]
 )
 def get_importacao(
     tipo: str = Query(
@@ -50,20 +51,3 @@ def get_importacao(
         )
 
     return dados
-
-@router.get(
-    "/importacao-autenticado",
-    response_model=List[Importacao],
-    summary="Obter dados de importação de forma autenticada",
-    description="Retorna os dados de importação com base no tipo especificado.",
-    tags=["Importação"],
-    dependencies=[Depends(get_current_user)]
-)
-def get_importacao_autenticado(
-    tipo: str = Query(
-        ...,
-        description="Tipo de importacao a ser retornado",
-        enum=["vinhos_mesa", "espumantes", "uvas_frescas", "uvas_passas", "suco_uva"],
-    )
-):
-    return get_importacao(tipo)

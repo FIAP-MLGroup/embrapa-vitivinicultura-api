@@ -12,6 +12,7 @@ router = APIRouter()
     summary="Obter dados de processamento",
     description="Retorna os dados de processamento com base no tipo especificado.",
     tags=["Processamento"],
+    dependencies=[Depends(get_current_user)]
 )
 def get_processamento(
     tipo: str = Query(
@@ -47,20 +48,3 @@ def get_processamento(
         )
 
     return dados
-
-@router.get(
-    "/processamento-autenticado",
-    response_model=List[Processamento],
-    summary="Obter dados de processamento de forma autenticada",
-    description="Retorna os dados de processamento com base no tipo especificado.",
-    tags=["Processamento"],
-    dependencies=[Depends(get_current_user)]
-)
-def get_processamento_autenticado(
-    tipo: str = Query(
-        ...,
-        description="Tipo de processamento a ser retornado",
-        enum=["vinifernas", "americanas_hibridas", "uvas_mesa", "sem_classificacao"],
-    )
-):
-    return get_processamento(tipo)
