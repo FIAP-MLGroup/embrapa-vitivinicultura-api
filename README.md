@@ -1,10 +1,12 @@
-# Trabalho Pós Graduação - FIAP 5MLET
+# Trabalho Pós-Graduação - FIAP 5MLET
 
-Extração dos dados de vitivinicultura fornecidos no site da EMBRAPA
+Extração dos dados de vitivinicultura fornecidos no site da EMBRAPA.
 
-## Bootstrap
+---
 
-Para inicialização deste projeto, os seguintes comandos devem ser executados:
+## 🔧 Bootstrap (modo tradicional)
+
+Para inicialização deste projeto manualmente, execute os comandos abaixo:
 
 ```bash
 python3 -m venv .venv
@@ -12,51 +14,121 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## Startup
+---
 
-Para inicialização do web server, o seguinte comando deve ser executado:
+## ▶️ Startup (modo tradicional)
+
+Para iniciar o servidor web localmente:
 
 ```bash
 uvicorn app.main:app --no-server-header --reload
 ```
 
-A API será disponibilizada localmente no endereço http://localhost:8000/
+A API estará disponível no endereço: [http://localhost:8000/](http://localhost:8000/)
 
-A documentação OpenAPI poderá ser acessada no endereço http://localhost:8000/docs
+A documentação interativa OpenAPI (Swagger) pode ser acessada em:  
+[http://localhost:8000/docs](http://localhost:8000/docs)
 
-## Docker
+---
 
-Abaixo segue os comandos para execução com Docker
+## 🐍 Alternativa com Makefile
 
-### Build
+Se preferir automatizar os passos acima com `make`:
+
+```bash
+make init      # Cria o ambiente virtual e instala dependências
+```
+
+> ⚠️ Após executar `make init`, você ainda precisa ativar o ambiente com:
+
+```bash
+source .venv/bin/activate
+```
+
+E então iniciar com:
+
+```bash
+make dev       # Roda localmente com uvicorn
+```
+
+---
+
+## 🐳 Docker
+
+### Build e execução tradicionais:
 
 ```bash
 docker build -t 5mlet-app .
+docker run -p 8000:8000 5mlet-app
 ```
 
-### Run
+### Ou com Makefile:
 
 ```bash
-docker run -p 8000:8000 localhost/5mlet-app
+make docker
 ```
 
-## JWT
+> Esse comando **builda automaticamente** a imagem (`make build-docker`) e já executa localmente com `docker run`.
 
-Exemplo de chamada para obter token JWT:
+Se quiser apenas construir a imagem (sem rodar), use:
+
 ```bash
-curl -X POST http://localhost:8000/api/v1/auth \        
-  -H "Content-Type: application/x-www-form-urlencoded" \                                                                                                
-  --data "username=admin&password=admin"
+make build-docker
 ```
 
-Exemplo de chamada para endpoint autenticado:
+---
+
+## 🧪 Lambda Local (SAM CLI)
+
+Para simular a execução como função Lambda localmente com SAM:
+
+```bash
+make lambda
+```
+
+> Esse comando também **builda a imagem Lambda automaticamente** (`make build-lambda`) antes de executar via SAM CLI.
+
+A API estará acessível em:  
+[http://localhost:3000/docs](http://localhost:3000/docs)
+
+> ⚠️ Isso **não envia a aplicação para a AWS** — é apenas uma simulação local.
+
+Se quiser apenas construir a imagem (sem rodar), use:
+
+```bash
+make build-lambda
+```
+
+> Para implantar na AWS, publique a imagem em um repositório ECR.
+
+---
+
+## 🔐 JWT
+
+### Obter token JWT:
+
+```bash
+curl -X POST http://localhost:8000/api/v1/auth \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  --data "username=admin" \
+  --data "password=admin"
+```
+
+### Chamada autenticada:
+
 ```bash
 curl http://localhost:8000/api/v1/producao \
-  -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTc0NTk1NzI2Mn0.C4W8ApBMQCNpSdpJqul06vFr11JvYQ23drdPF6dRBLc"
+  -H "Authorization: Bearer <SEU_TOKEN_JWT>"
 ```
 
-ou
-
-Informar o token ao clicar em Authorize no SwaggerUI:
+Também é possível autenticar pelo botão "Authorize" no Swagger UI:
 
 ![Swagger Authorize](assets/images/authorize.png)
+
+---
+
+## ✅ Pré-requisitos
+
+- Python 3.11+
+- Docker (para build/run local e Lambda)
+- AWS SAM CLI (para testes locais simulando Lambda)
