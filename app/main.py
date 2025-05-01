@@ -22,6 +22,7 @@ Metadata:
     - license_info: Apache 2.0 License
 """
 from fastapi import FastAPI
+from mangum import Mangum
 from app.api import producao
 from app.api import processamento
 from app.api import comercializacao
@@ -46,3 +47,5 @@ app.include_router(comercializacao.router, prefix="/api/v1")
 app.include_router(importacao.router, prefix="/api/v1")
 app.include_router(exportacao.router, prefix="/api/v1")
 app.include_router(auth.router, prefix="/api/v1")
+
+handler = Mangum(app)
