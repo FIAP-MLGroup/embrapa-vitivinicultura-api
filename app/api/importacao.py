@@ -1,14 +1,16 @@
 from fastapi import APIRouter, Query, HTTPException, Depends
 from typing import List
-from app.models.importacao import Importacao
-from app.core.data_loader import carregar_dados, URL
+from app.models.item_importacao import ItemImportacao
+from app.core.data_loader import URL
 from app.core.security import get_current_user
+from app.core.importacao_scraper import scrap_data
+from datetime import datetime
 
 router = APIRouter()
 
 @router.get(
     "/importacao",
-    response_model=List[Importacao],
+    response_model=List[ItemImportacao],
     summary="Obter dados de importação",
     description="Retorna os dados de importação com base no tipo especificado.",
     tags=["Importação"],
@@ -19,7 +21,8 @@ def get_importacao(
         ...,
         description="Tipo de importacao a ser retornado",
         enum=["vinhos_mesa", "espumantes", "uvas_frescas", "uvas_passas", "suco_uva"],
-    )
+    ),
+    ano: int = Query(..., ge=1970, le=datetime.now().year, description="Ano de importação a ser consultado (entre 1970 e o ano atual)")
 ):
     url_map = {
         "vinhos_mesa": URL.IMPORTACAO_VINHOS_MESA,
@@ -35,19 +38,4 @@ def get_importacao(
             detail=f"Tipo '{tipo}' não é válido. Valores esperados: {list(url_map.keys())}",
         )
 
-    df = carregar_dados(url_map[tipo])
-    dados = []
-
-    # Identifica pares de colunas de anos (quantidade e valor)
-    colunas_anos = df.columns[2:]  # Ignora "id" e "País"
-
-    for _, row in df.iterrows():
-        dados.append(
-            Importacao.from_dataframe_row(row=row, field_map={
-                "id": "Id",
-                "pais": "País",
-                "historico": colunas_anos
-            })
-        )
-
-    return dados
+    return scrap_data(url=url_map[tipo], year=ano)
