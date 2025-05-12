@@ -15,3 +15,6 @@ class ItemImportacao(BaseModel):
                 "valor": 93869579
             }
         }
+
+# Corrige referência recursiva
+ItemImportacao.update_forward_refs()

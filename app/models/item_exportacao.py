@@ -15,3 +15,6 @@ class ItemExportacao(BaseModel):
                 "valor": 167696
             }
         }
+
+# Corrige referência recursiva 
+ItemExportacao.update_forward_refs()

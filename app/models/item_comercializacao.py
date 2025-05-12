@@ -20,5 +20,5 @@ class ItemComercializacao(BaseModel):
             }
         }
 
-# Corrige referência recursiva 
+# Corrige referência recursiva
 ItemComercializacao.update_forward_refs()

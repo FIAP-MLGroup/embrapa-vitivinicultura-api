@@ -19,4 +19,5 @@ class ItemProcessamento(BaseModel):
             }
         }
 
+# Corrige referência recursiva
 ItemProcessamento.update_forward_refs()
