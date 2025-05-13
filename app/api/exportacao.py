@@ -3,7 +3,7 @@ from typing import List
 from app.models.item_exportacao import ItemExportacao
 from app.core.data_loader import URL
 from app.core.security import get_current_user
-from app.core.importacao_scraper import scrap_data
+from app.core.exportacao_scraper import ExportacaoScraper
 from datetime import datetime
 
 router = APIRouter()
@@ -37,4 +37,4 @@ def get_exportacao(
             detail=f"Tipo '{tipo}' não é válido. Valores esperados: {list(url_map.keys())}",
         )
     
-    return scrap_data(url=url_map[tipo], year=ano)
+    return ExportacaoScraper(url=url_map[tipo], year=ano).get_data()

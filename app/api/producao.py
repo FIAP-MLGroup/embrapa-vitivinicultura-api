@@ -4,7 +4,7 @@ from app.models.item_producao import ItemProducao
 from app.core.data_loader import URL
 from app.core.security import get_current_user
 from datetime import datetime
-from app.core.producao_scraper import scrap_data
+from app.core.producao_scraper import ProducaoScraper
 
 router = APIRouter()
 
@@ -16,4 +16,4 @@ router = APIRouter()
         dependencies=[Depends(get_current_user)])
 def get_producao(ano: int = Query(..., ge=1970, le=datetime.now().year, description="Ano da produção a ser consultada (entre 1970 e o ano atual)")):
 
-        return scrap_data(url=URL.PRODUCAO, year=ano)
+        return ProducaoScraper(url=URL.PRODUCAO, year=ano).get_data()

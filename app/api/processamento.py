@@ -4,7 +4,7 @@ from app.models.item_processamento import ItemProcessamento
 from app.core.data_loader import URL
 from datetime import datetime
 from app.core.security import get_current_user
-from app.core.processamento_scraper import scrap_data
+from app.core.processamento_scraper import ProcessamentoScraper
 
 
 router = APIRouter()
@@ -38,4 +38,4 @@ def get_processamento(
             detail=f"Tipo '{tipo}' não é válido. Valores esperados: {list(url_map.keys())}",
         )
     
-    return scrap_data(url=url_map[tipo], year=ano)
+    return ProcessamentoScraper(url=url_map[tipo], year=ano).get_data()
