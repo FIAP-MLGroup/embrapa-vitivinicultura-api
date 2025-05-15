@@ -52,7 +52,7 @@ class URL(Enum):
     }
 
 def load_page(url: URL, year: int) -> BeautifulSoup:
-    endpoint = f"{url.value["endpoint"]}&ano={year}"
+    endpoint = f"{url.value['endpoint']}&ano={year}"
     print(f"Scraping data for year: {year}")
     print(f"URL: {endpoint}")
     response = requests.get(endpoint)

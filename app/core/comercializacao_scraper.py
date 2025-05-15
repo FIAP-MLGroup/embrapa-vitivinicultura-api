@@ -4,11 +4,12 @@ from app.core.data_loader import URL, load_page
 from app.models.item_comercializacao import ItemComercializacao
 from app.core.scraper_cache import ScraperCache
 
-class ComercializacaoScraper(ScraperCache):
+class ComercializacaoScraper(ScraperCache[ItemComercializacao]):
     """
     Scraper para coletar dados de comercialização de vinho do site da Embrapa.
     """
     def __init__(self, url: URL, year: int):
+        super().__init__(ItemComercializacao)
         self.year = year
         self.url = url
 

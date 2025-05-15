@@ -1,31 +1,39 @@
 from abc import ABC, abstractmethod
-from typing import List
+from typing import TypeVar, Generic, List, Type
 from app.core.s3_cache import read_from_s3, write_to_s3_async
 from pydantic import BaseModel
+
+T = TypeVar("T", bound=BaseModel)
 
 # Cache local em memória usando variável estática (dicionário global)
 LOCAL_CACHE = {}
 
-class ScraperCache(ABC):
+class ScraperCache(ABC, Generic[T]):
+
+    model_class: Type[T]  # define qual model o scraper irá usar
+
+    def __init__(self, model_class: Type[T]):
+        self.model_class = model_class
+
     @abstractmethod
     def get_cache_key(self) -> str:
         """Método para gerar chave única de cache (baseado no ano ou outro parâmetro)"""
         pass
     
     @abstractmethod
-    def scrape_data(self) -> List[BaseModel]:
+    def scrape_data(self) -> List[T]:
         """Método que será implementado nas subclasses para fazer o scraping específico"""
         pass
     
-    def load_local_cache(self, cache_key: str) -> List[BaseModel] | None:
+    def load_local_cache(self, cache_key: str) -> List[T] | None:
         """Tenta carregar os dados do cache local"""
         return LOCAL_CACHE.get(cache_key)
 
-    def save_local_cache(self, cache_key: str, data: List[BaseModel]):
+    def save_local_cache(self, cache_key: str, data: List[T]):
         """Salva os dados no cache local"""
         LOCAL_CACHE[cache_key] = data
 
-    def get_data(self) -> List[BaseModel]:
+    def get_data(self) -> List[T]:
         """Lógica comum de cache: tenta carregar os dados da cache local, depois do scraping e do S3"""
         cache_key = self.get_cache_key()
 
@@ -49,7 +57,7 @@ class ScraperCache(ABC):
 
         except Exception:
             # 5. Se falhar, tenta recuperar do S3 (leitura síncrona)
-            if backup := read_from_s3(cache_key=cache_key, model=type(BaseModel)):
+            if backup := read_from_s3(cache_key=cache_key, model_cls=self.model_class):
                 # Salva no cache local (em memória)
                 self.save_local_cache(cache_key, backup)
                 return backup
