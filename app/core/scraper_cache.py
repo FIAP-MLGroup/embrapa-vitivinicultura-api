@@ -37,6 +37,10 @@ class ScraperCache(ABC, Generic[T]):
         """Lógica comum de cache: tenta carregar os dados da cache local, depois do scraping e do S3"""
         cache_key = self.get_cache_key()
 
+        # Testa a leitura de arquivos no S3
+        # if cached := read_from_s3(cache_key=cache_key, model_cls=self.model_class):
+        #     return cached
+
         # 1. Tenta carregar do cache local (em memória)
         if cached := self.load_local_cache(cache_key):
             return cached
