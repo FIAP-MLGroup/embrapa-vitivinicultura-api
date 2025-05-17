@@ -2,7 +2,7 @@ name: CI/CD Workflow
 
 on:
   push:
-    branches: [gihub_actions]
+    branches: [main]
 
 jobs:
   build_and_test:
