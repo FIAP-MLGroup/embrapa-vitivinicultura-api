@@ -32,6 +32,4 @@ jobs:
     
     - name: AWS Lambda update
       run: |
-       aws lambda update-function-code --function-name embrapa-vitivinicultura \ 
-             --image-uri 756014088805.dkr.ecr.sa-east-1.amazonaws.com/mlgroup/embrapa:latest \ 
-             --region sa-east-1
+       aws lambda update-function-code --function-name embrapa-vitivinicultura --image-uri 756014088805.dkr.ecr.sa-east-1.amazonaws.com/mlgroup/embrapa:latest --region sa-east-1
