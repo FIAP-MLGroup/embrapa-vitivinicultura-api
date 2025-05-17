@@ -27,21 +27,5 @@ jobs:
         ECR_REGISTRY: 756014088805.dkr.ecr.sa-east-1.amazonaws.com
         ECR_REPOSITORY: mlgroup/embrapa
       run: |
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:latest -f Dockerfile .
+        docker build --platform linux/amd64 -t $ECR_REGISTRY/$ECR_REPOSITORY:latest -f DockerfileLambda .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
-      
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Login to ECR
-#        uses: docker/login-action@v3
-#        with:
-#          registry: 756014088805.dkr.ecr.sa-east-1.amazonaws.com
-#          username: ${{ vars.ECR_USERNAME }}
-#          password: ${{ secrets.ECR_TOKEN }}
-#      - name: Build and push
-#        uses: docker/build-push-action@v6
-#        with:
-#          push: true
-#          context: .
-#          tags: 756014088805.dkr.ecr.sa-east-1.amazonaws.com/mlgroup/embrapa:latest
-#          file: ./Dockerfile
