@@ -29,3 +29,9 @@ jobs:
       run: |
         docker build --platform linux/amd64 -t $ECR_REGISTRY/$ECR_REPOSITORY:latest -f DockerfileLambda .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+    
+    - name: AWS Lambda update
+      run: |
+       aws lambda update-function-code --function-name embrapa-vitivinicultura \ 
+             --image-uri 756014088805.dkr.ecr.sa-east-1.amazonaws.com/mlgroup/embrapa:latest \ 
+             --region sa-east-1
