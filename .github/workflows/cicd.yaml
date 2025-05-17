@@ -1,0 +1,20 @@
+name: CI/CD Workflow
+
+on:
+  push:
+    branches: [gihub_actions]
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Login to ECR
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.ECR_USERNAME }}
+          password: ${{ secrets.ECR_TOKEN }}
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          tags: user/app:latest
