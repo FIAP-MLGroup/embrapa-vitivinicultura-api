@@ -4,6 +4,14 @@ FROM python:3.13-alpine
 # Diretório de trabalho dentro do contêiner
 WORKDIR /app
 
+# Instala os pacotes de build necessários para compilar dependências
+RUN apk add --no-cache \
+    build-base \
+    gcc \
+    musl-dev \
+    python3-dev \
+    libffi-dev
+
 # Copia o arquivo de dependências
 COPY requirements.txt .
 
