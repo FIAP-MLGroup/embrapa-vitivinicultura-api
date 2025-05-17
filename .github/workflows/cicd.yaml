@@ -11,10 +11,13 @@ jobs:
       - name: Login to ECR
         uses: docker/login-action@v3
         with:
+          registry: 756014088805.dkr.ecr.sa-east-1.amazonaws.com
           username: ${{ vars.ECR_USERNAME }}
           password: ${{ secrets.ECR_TOKEN }}
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
           push: true
-          tags: user/app:latest
+          context: .
+          tags: 756014088805.dkr.ecr.sa-east-1.amazonaws.com/mlgroup/embrapa:latest
+          file: ./Dockerfile
