@@ -1,14 +1,16 @@
 from fastapi import APIRouter, Query, HTTPException, Depends
 from typing import List
-from app.models.exportacao import Exportacao
-from app.core.data_loader import carregar_dados, URL
+from app.models.item_exportacao import ItemExportacao
+from app.core.data_loader import URL
 from app.core.security import get_current_user
+from app.core.exportacao_scraper import ExportacaoScraper
+from datetime import datetime
 
 router = APIRouter()
 
 @router.get(
     "/exportacao",
-    response_model=List[Exportacao],
+    response_model=List[ItemExportacao],
     summary="Obter dados de exportação",
     description="Retorna os dados de exportação com base no tipo especificado.",
     tags=["Exportação"],
@@ -19,7 +21,8 @@ def get_exportacao(
         ...,
         description="Tipo de exportação a ser retornado",
         enum=["vinhos_mesa", "espumantes", "uvas_frescas", "suco_uva"],
-    )
+    ),
+    ano: int = Query(..., ge=1970, le=datetime.now().year, description="Ano de exportação a ser consultado (entre 1970 e o ano atual)")
 ):
     url_map = {
         "vinhos_mesa": URL.EXPORTACAO_VINHOS_MESA,
@@ -33,20 +36,5 @@ def get_exportacao(
             status_code=400,
             detail=f"Tipo '{tipo}' não é válido. Valores esperados: {list(url_map.keys())}",
         )
-
-    df = carregar_dados(url_map[tipo])
-    dados = []
-
-    # Identifica pares de colunas de anos (quantidade e valor)
-    colunas_anos = df.columns[2:]  # Ignora "id" e "País"
-
-    for _, row in df.iterrows():
-        dados.append(
-            Exportacao.from_dataframe_row(row=row, field_map={
-                "id": "Id",
-                "pais": "País",
-                "historico": colunas_anos
-            })
-        )
-
-    return dados
+    
+    return ExportacaoScraper(url=url_map[tipo], year=ano).get_data()
