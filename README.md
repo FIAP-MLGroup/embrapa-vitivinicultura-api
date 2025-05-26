@@ -2,7 +2,10 @@
 
 Extração dos dados de vitivinicultura fornecidos no site da EMBRAPA.
 
----
+## Visão macro dos componentes
+
+![Visão Macro](assets/images/overview.png)
+
 
 ## 🔧 Bootstrap (modo tradicional)
 
