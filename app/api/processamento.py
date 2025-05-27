@@ -38,4 +38,7 @@ def get_processamento(
             detail=f"Tipo '{tipo}' não é válido. Valores esperados: {list(url_map.keys())}",
         )
     
-    return ProcessamentoScraper(url=url_map[tipo], year=ano).get_data()
+    try:
+        return ProcessamentoScraper(url=url_map[tipo], year=ano).get_data()
+    except Exception:
+        raise HTTPException(status_code=500, detail="Ocorreu um erro ao consultar os dados de processamento. Verifique o ano informado e tente novamente.")

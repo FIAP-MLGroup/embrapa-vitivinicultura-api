@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Query, Depends
+from fastapi import APIRouter, Query, Depends, HTTPException
 from typing import List
 from app.models.item_comercializacao import ItemComercializacao
 from app.core.data_loader import URL
@@ -16,4 +16,7 @@ router = APIRouter()
         dependencies=[Depends(get_current_user)])
 def get_comercializacao(ano: int = Query(..., ge=1970, le=datetime.now().year, description="Ano da comercialização a ser consultada (entre 1970 e o ano atual)")):
 
-        return ComercializacaoScraper(url=URL.COMERCIALIZACAO, year=ano).get_data()
+        try:
+                return ComercializacaoScraper(url=URL.COMERCIALIZACAO, year=ano).get_data()
+        except Exception:
+                raise HTTPException(status_code=500, detail="Ocorreu um erro ao consultar os dados de comercialização. Verifique o ano informado e tente novamente.")

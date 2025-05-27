@@ -37,4 +37,7 @@ def get_exportacao(
             detail=f"Tipo '{tipo}' não é válido. Valores esperados: {list(url_map.keys())}",
         )
     
-    return ExportacaoScraper(url=url_map[tipo], year=ano).get_data()
+    try:
+        return ExportacaoScraper(url=url_map[tipo], year=ano).get_data()
+    except Exception:
+        raise HTTPException(status_code=500, detail="Ocorreu um erro ao consultar os dados de exportação. Verifique o ano informado e tente novamente.")
