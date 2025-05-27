@@ -21,12 +21,12 @@ def get_processamento(
     tipo: str = Query(
         ...,
         description="Tipo de processamento a ser retornado",
-        enum=["vinifernas", "americanas_hibridas", "uvas_mesa", "sem_classificacao"],
+        enum=["viniferas", "americanas_hibridas", "uvas_mesa", "sem_classificacao"],
     ),
     ano: int = Query(..., ge=1970, le=datetime.now().year, description="Ano de processamento a ser consultado (entre 1970 e o ano atual)")
 ):
     url_map = {
-        "vinifernas": URL.PROCESSAMENTO_VINIFERAS,
+        "viniferas": URL.PROCESSAMENTO_VINIFERAS,
         "americanas_hibridas": URL.PROCESSAMENTO_AMERICANAS_HIBRIDAS,
         "uvas_mesa": URL.PROCESSAMENTO_UVAS_MESA,
         "sem_classificacao": URL.PROCESSAMENTO_SEM_CLASSIFICACAO,
