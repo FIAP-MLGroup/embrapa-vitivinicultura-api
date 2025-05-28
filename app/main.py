@@ -33,8 +33,8 @@ from app.api import auth
 app = FastAPI(
     title="VitiviniculturaApp",
     description="API para consulta dos dados de vitivinicultura disponibilizados pela EMBRAPA",
-    summary="Tech Challenge da Pós Graduação de Machine Learning da FIAP (5MLET)",
-    version="0.0.1",
+    summary="Tech Challenge da Pós Graduação de Machine Learning da FIAP (5MLET) | Demo de API",
+    version="0.0.2",
     license_info={
         "name": "Apache 2.0",
         "url": "https://www.apache.org/licenses/LICENSE-2.0.html",
