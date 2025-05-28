@@ -6,7 +6,6 @@ Extração dos dados de vitivinicultura fornecidos no site da EMBRAPA.
 
 ![Visão Macro](assets/images/overview.png)
 
-
 ## 🔧 Bootstrap (modo tradicional)
 
 Para inicialização deste projeto manualmente, execute os comandos abaixo:
